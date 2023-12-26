@@ -1,13 +1,15 @@
 package com.example.demo.serviceImpl;
 
-import com.example.demo.models.*;
-import com.example.demo.repository.TransactionRepository;
-import com.example.demo.repository.UserWalletRepository;
-import com.example.demo.repository.VendorWalletRepository;
+import com.example.demo.payment.models.*;
+import com.example.demo.payment.repository.TransactionRepository;
+import com.example.demo.payment.repository.UserWalletRepository;
+import com.example.demo.payment.repository.VendorWalletRepository;
 import com.example.demo.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.payment.repository.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -27,18 +29,13 @@ public class TransactionServiceImpl implements TransactionService {
         @Override
         public OnlineTransactionResponse onlineTransaction(OnlineTransactionRequest onlineTransactionRequest) {
 
-        String userId1 = onlineTransactionRequest.getUserId1();
-        String userId2 = onlineTransactionRequest.getUserId2();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        User user1 = userRepository.findByUserId(userId1).orElseThrow();
-        User user2 = userRepository.findByUserId(userId2).orElseThrow();
+        String userId = ((UserDetails)principal).getUsername();
+        String vendorId = onlineTransactionRequest.getVendorId();
 
-        if(user1.getRole() == Role.ADMIN || user2.getRole() == Role.ADMIN || (user1.getRole() == Role.USER && user2.getRole() == Role.USER) || (user1.getRole() == Role.VENDOR && user2.getRole() == Role.VENDOR)) {
-            throw new RuntimeException("Invalid transaction");
-        }
-
-        User user = user1.getRole() == Role.USER ? user1 : user2;
-        User vendor = user1.getRole() == Role.VENDOR ? user1 : user2;
+        User user = userRepository.findByUserId(userId).orElseThrow();
+        User vendor = userRepository.findByUserId(vendorId).orElseThrow();
 
         UserWallet userWallet = userWalletRepository.findByUserId(user.getId()).orElseThrow();
 
@@ -62,7 +59,6 @@ public class TransactionServiceImpl implements TransactionService {
         var transactionResponse = OnlineTransactionResponse.builder()
                 .paymentId(savedTransaction.getId())
                 .otp(otp)
-                .userId(user.getId())
                 .vendorId(vendor.getId())
                 .build();
 
@@ -74,6 +70,10 @@ public class TransactionServiceImpl implements TransactionService {
     public String onlineTransactionVerify(OnlineTransactionResponse onlineTransactionResponse){
 
         Transaction transaction = transactionRepository.findById(onlineTransactionResponse.getPaymentId()).orElseThrow();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String userId = ((UserDetails)principal).getUsername();
+        User user = userRepository.findByUserId(userId).orElseThrow();
 
         String sentOtp = onlineTransactionResponse.getOtp();
         String actualOtp = transaction.getOtp();
@@ -82,7 +82,7 @@ public class TransactionServiceImpl implements TransactionService {
             return "Invalid OTP";
         }
 
-        UserWallet userWallet = userWalletRepository.findByUserId(onlineTransactionResponse.getUserId()).orElseThrow();
+        UserWallet userWallet = userWalletRepository.findByUserId(user.getId()).orElseThrow();
         VendorWallet vendorWallet = vendorWalletRepository.findByVendorId(onlineTransactionResponse.getVendorId()).orElseThrow();
 
         userWallet.setBalance(userWallet.getBalance() - transaction.getAmount());
@@ -106,18 +106,14 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public String offlineTransaction(OfflineTransactionRequest offlineTransactionRequest) {
 
-            String userId1 = offlineTransactionRequest.getUserId1();
-            String userId2 = offlineTransactionRequest.getUserId2();
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            User user1 = userRepository.findByUserId(userId1).orElseThrow();
-            User user2 = userRepository.findByUserId(userId2).orElseThrow();
+            String userId = ((UserDetails)principal).getUsername();
+            String vendorId = offlineTransactionRequest.getVendorId();
 
-            if(user1.getRole() == Role.ADMIN || user2.getRole() == Role.ADMIN || (user1.getRole() == Role.USER && user2.getRole() == Role.USER) || (user1.getRole() == Role.VENDOR && user2.getRole() == Role.VENDOR)) {
-                throw new RuntimeException("Invalid transaction");
-            }
+            User user = userRepository.findByUserId(userId).orElseThrow();
+            User vendor = userRepository.findByUserId(vendorId).orElseThrow();
 
-            User user = user1.getRole() == Role.USER ? user1 : user2;
-            User vendor = user1.getRole() == Role.VENDOR ? user1 : user2;
 
             UserWallet userWallet = userWalletRepository.findByUserId(user.getId()).orElseThrow();
 
@@ -154,7 +150,7 @@ public class TransactionServiceImpl implements TransactionService {
 
                 Transaction savedTransaction = transactionRepository.save(transaction);
 
-                return Integer.toString(savedTransaction.getId())+" is flagged for distance";
+                return savedTransaction.getId() +" is flagged for distance";
             }
 
             var transaction = Transaction.builder()

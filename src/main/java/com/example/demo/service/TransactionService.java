@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.models.OfflineTransactionRequest;
-import com.example.demo.models.OnlineTransactionRequest;
-import com.example.demo.models.OnlineTransactionResponse;
+import com.example.demo.payment.models.OfflineTransactionRequest;
+import com.example.demo.payment.models.OnlineTransactionRequest;
+import com.example.demo.payment.models.OnlineTransactionResponse;
 import org.springframework.stereotype.Service;
 
 @Service

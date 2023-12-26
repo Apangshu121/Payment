@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.models.TransferFundsToPersonal;
-import com.example.demo.models.User;
-import com.example.demo.models.VendorPersonalWallet;
+import com.example.demo.payment.models.TransferFundsToPersonal;
+import com.example.demo.payment.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

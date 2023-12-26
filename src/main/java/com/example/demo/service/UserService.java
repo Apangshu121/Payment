@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.models.AllocateFunds;
-import com.example.demo.models.AuthenticateRequest;
-import com.example.demo.models.User;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.payment.models.AllocateFunds;
+import com.example.demo.payment.models.AuthenticateRequest;
+import com.example.demo.payment.models.User;
 import org.springframework.stereotype.Service;
 
 @Service

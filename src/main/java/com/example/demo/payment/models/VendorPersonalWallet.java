@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.payment.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,26 +6,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
-import java.util.Set;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user_wallets")
-public class UserWallet {
-
+@Table(name = "vendor_personal_wallets")
+public class VendorPersonalWallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Version
+    private long version;
+
     private double balance;
 
-    private double offlineBalance;
-
-    private int userId;
-
-    private Set<String> codes;
+    private int vendorId;
 }

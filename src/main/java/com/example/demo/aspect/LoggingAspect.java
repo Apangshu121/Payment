@@ -1,7 +1,7 @@
 package com.example.demo.aspect;
 
-import com.example.demo.models.AuditLog;
-import com.example.demo.repository.AuditLogRepository;
+import com.example.demo.audit.models.AuditLog;
+import com.example.demo.audit.repository.AuditLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

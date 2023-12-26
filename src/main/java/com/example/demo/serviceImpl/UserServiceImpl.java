@@ -1,13 +1,15 @@
 package com.example.demo.serviceImpl;
 
 import com.example.demo.config.JwtService;
-import com.example.demo.models.*;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.UserWalletRepository;
+import com.example.demo.payment.models.*;
+import com.example.demo.payment.repository.UserRepository;
+import com.example.demo.payment.repository.UserWalletRepository;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +66,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String allocateFunds(AllocateFunds funds) {
-        Optional<User> optionalUser = userRepository.findByUserId(funds.getUserId());
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = ((UserDetails)principal).getUsername();
+
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
 
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -83,7 +89,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String allocateOfflineFunds(AllocateFunds funds) {
-        Optional<User> optionalUser = userRepository.findByUserId(funds.getUserId());
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userId = ((UserDetails)principal).getUsername();
+
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
 
         if(optionalUser.isPresent()) {
             User user = optionalUser.get();

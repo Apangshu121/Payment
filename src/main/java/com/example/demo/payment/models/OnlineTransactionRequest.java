@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.payment.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AllocateFunds {
-    private String userId;
-    private String amount;
+public class OnlineTransactionRequest {
+    private String vendorId;
+    private double amount;
 }

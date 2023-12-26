@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.models.TransferFundsToPersonal;
-import com.example.demo.models.User;
+import com.example.demo.payment.models.TransferFundsToPersonal;
+import com.example.demo.payment.models.User;
 import org.springframework.stereotype.Service;
 
 @Service

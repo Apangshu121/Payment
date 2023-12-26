@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.models.AllocateFunds;
-import com.example.demo.models.AuthenticateRequest;
-import com.example.demo.models.User;
+import com.example.demo.payment.models.AllocateFunds;
+import com.example.demo.payment.models.AuthenticateRequest;
+import com.example.demo.payment.models.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

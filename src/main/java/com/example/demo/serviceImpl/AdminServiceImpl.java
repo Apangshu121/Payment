@@ -1,10 +1,10 @@
 package com.example.demo.serviceImpl;
-import com.example.demo.models.*;
-import com.example.demo.repository.TransactionRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.UserWalletRepository;
-import com.example.demo.repository.VendorWalletRepository;
-import com.example.demo.repository.VendorPersonalWalletRepository;
+import com.example.demo.payment.models.*;
+import com.example.demo.payment.repository.TransactionRepository;
+import com.example.demo.payment.repository.UserRepository;
+import com.example.demo.payment.repository.UserWalletRepository;
+import com.example.demo.payment.repository.VendorWalletRepository;
+import com.example.demo.payment.repository.VendorPersonalWalletRepository;
 import com.example.demo.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

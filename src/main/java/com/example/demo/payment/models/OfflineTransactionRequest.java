@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.payment.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OfflineTransactionRequest {
 
-    private String userId1;
-    private String userId2;
+    private String vendorId;
     private double amount;
     private String code;
     private double gpsLocationX;

@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.payment.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OnlineTransactionResponse {
-    private int paymentId;
-    private String otp;
-    private int userId;
+public class TransferFundsToPersonal {
     private int vendorId;
+    private double amount;
 }
